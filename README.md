@@ -25,7 +25,6 @@ The dataset contains 2,075,259 measurements gathered in a house located in Sceau
 4. **Machine Learning**: Develop a model to forecast electricity load based on historical data.
 
 ## Project Structure
-,,,
 project-root/
 ├── data/
 │ └── household_energy_consumption.csv
@@ -39,4 +38,3 @@ project-root/
 │ └── utils.py
 ├── README.md
 └── requirements.txt
-,,,
