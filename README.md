@@ -25,7 +25,6 @@ The dataset contains 2,075,259 measurements gathered in a house located in Sceau
 4. **Machine Learning**: Develop a model to forecast electricity load based on historical data.
 
 ## Project Structure
-# Project Structure
 
 ```
 project-root/
@@ -43,3 +42,42 @@ project-root/
 └── requirements.txt
 ```
 
+## Step-by-Step Guide
+
+### 1. Data Cleaning and Wrangling
+
+**File:** `notebooks/01_data_cleaning_and_wrangling.ipynb`
+
+- **Load the Data**: Use pandas to read the CSV file.
+- **Handle Missing Values**: The dataset has about 1.25% missing values. Replace missing values with appropriate methods (e.g., mean imputation for numerical columns).
+- **Convert Data Types**: Convert `date` and `time` columns to datetime format. Convert other columns to appropriate numeric types.
+- **Create New Features**: Calculate total energy consumption and create time-based features (e.g., day of week, month, year).
+- **Save Cleaned Data**: Save the cleaned dataset for further analysis.
+
+```python
+import pandas as pd
+import numpy as np
+
+# Load the data
+df = pd.read_csv('data/household_energy_consumption.csv', sep=';', na_values='?')
+
+# Handle missing values
+df = df.fillna(df.mean())
+
+# Convert date and time to datetime
+df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], format='%d/%m/%Y %H:%M:%S')
+
+# Convert other columns to numeric
+numeric_columns = ['global_active_power', 'global_reactive_power', 'voltage', 'global_intensity', 
+                   'sub_metering_1', 'sub_metering_2', 'sub_metering_3']
+for col in numeric_columns:
+    df[col] = pd.to_numeric(df[col], errors='coerce')
+
+# Create new features
+df['total_energy'] = df['global_active_power'] * 1000 / 60 - df['sub_metering_1'] - df['sub_metering_2'] - df['sub_metering_3']
+df['day_of_week'] = df['datetime'].dt.dayofweek
+df['month'] = df['datetime'].dt.month
+df['year'] = df['datetime'].dt.year
+
+# Save cleaned data
+df.to_csv('data/cleaned_household_energy_consumption.csv', index=False)
