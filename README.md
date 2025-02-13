@@ -127,8 +127,10 @@ numpy
 matplotlib
 seaborn
 statsmodels
-scikit-learn ```
+scikit-learn
+```
 
 You can install them using:
+
 ``` pip install -r requirements.txt ```
 
