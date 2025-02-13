@@ -132,5 +132,7 @@ scikit-learn
 
 You can install them using:
 
-``` pip install -r requirements.txt ```
+``` 
+pip install -r requirements.txt
+ ```
 
