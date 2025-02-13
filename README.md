@@ -54,30 +54,81 @@ project-root/
 - **Create New Features**: Calculate total energy consumption and create time-based features (e.g., day of week, month, year).
 - **Save Cleaned Data**: Save the cleaned dataset for further analysis.
 
-```python
-import pandas as pd
-import numpy as np
 
-# Load the data
-df = pd.read_csv('data/household_energy_consumption.csv', sep=';', na_values='?')
+### 2. Exploratory Data Analysis (EDA)  
+**File:** `notebooks/02_exploratory_data_analysis.ipynb`  
 
-# Handle missing values
-df = df.fillna(df.mean())
+ 
+- **Descriptive Statistics**: Calculate and visualize basic statistics for each variable.  
+- **Time Series Analysiss**: Analyze trends and seasonality in energy consumption over time.  
+- **Correlation Analysis**: Examine relationships between different energy consumption metrics.  
+- **Distribution Analysis**: Visualize the distribution of key variables.
 
-# Convert date and time to datetime
-df['datetime'] = pd.to_datetime(df['date'] + ' ' + df['time'], format='%d/%m/%Y %H:%M:%S')
+### 3. Visualization with Power BI  
+**File:** `powerbi/household_energy_dashboard.pbix`  
 
-# Convert other columns to numeric
-numeric_columns = ['global_active_power', 'global_reactive_power', 'voltage', 'global_intensity', 
-                   'sub_metering_1', 'sub_metering_2', 'sub_metering_3']
-for col in numeric_columns:
-    df[col] = pd.to_numeric(df[col], errors='coerce')
+### Import Data  
+- Load the cleaned dataset into Power BI.  
 
-# Create new features
-df['total_energy'] = df['global_active_power'] * 1000 / 60 - df['sub_metering_1'] - df['sub_metering_2'] - df['sub_metering_3']
-df['day_of_week'] = df['datetime'].dt.dayofweek
-df['month'] = df['datetime'].dt.month
-df['year'] = df['datetime'].dt.year
+### Create Visualizations  
+- Line chart for global active power over time.  
+- Bar chart for average energy consumption by month.  
+- Pie chart for energy distribution across sub-meterings.  
+- Scatter plot to show the relationship between voltage and global intensity.  
+- Interactive filters for date range and specific metrics.  
 
-# Save cleaned data
-df.to_csv('data/cleaned_household_energy_consumption.csv', index=False)
+### Dashboard Layout  
+- Arrange visualizations in a coherent and informative layout.  
+
+### Insights  
+- Add text boxes to highlight key findings and insights from the data.
+### 4. Machine Learning for Electricity Load Forecasting  
+**File:** `notebooks/03_machine_learning.ipynb`  
+
+#### Data Preparation  
+- Prepare the data for time series forecasting, including feature engineering and splitting into train/test sets.  
+
+#### Model Selection  
+- Choose an appropriate model for time series forecasting (e.g., ARIMA, LSTM, or Prophet).  
+
+#### Model Training  
+- Train the selected model on the training data.  
+
+#### Model Evaluation  
+- Evaluate the model's performance using appropriate metrics (e.g., MAE, RMSE).  
+
+#### Forecasting  
+- Use the trained model to forecast future electricity load.
+
+## Conclusion
+In this project, we analyzed a comprehensive dataset of household energy consumption collected over 47 months in Sceaux, France. Through our data cleaning and wrangling efforts, we prepared the dataset for in-depth analysis, handling missing values creating features to enhance our understanding of energy usage patterns. Our exploratory data analysis (EDA) provided valuable insights into the distribution, trends, and relationships within the, revealing daily, monthly, and yearly patterns in energy consumption.
+
+We utilized Power BI to create an interactive dashboard, visualizing key metrics such as global active power over time, average energy consumption by month, energy distribution across different sub-meterings, and the relationship between voltage and global intensity. This dashboard not only an easier interpretation of the data but also allowed for real-time exploration of different time periods and metrics.
+
+Furthermore, we implemented a machine learning model using ARIMA for electricity load forecasting. While the initial model produced a straight-line forecast, further tuning and exploration of other models like SARIMA or even advanced techniques such as LSTM could potentially yield more nuanced predictions. The project demonstrated the power of combining data analysis, visualization, and predictive modeling to gain actionable insights from IoT data, which can be invaluable for optimizing energy usage and planning in household settings.
+
+
+## Future Work  
+
+### Advanced Machine Learning  
+- Explore more advanced models like LSTM or Prophet for improved forecasting accuracy.  
+
+### Real-time Monitoring  
+- Implement a real-time monitoring system using the IoT data.  
+
+### Energy Efficiency Recommendations  
+- Develop a system to provide personalized energy-saving recommendations based on the analysis.  
+
+## Requirements
+To run the notebooks, you'll need the following Python libraries:
+```
+pandas
+numpy
+matplotlib
+seaborn
+statsmodels
+scikit-learn ```
+
+You can install them using:
+``` pip install -r requirements.txt ```
+
